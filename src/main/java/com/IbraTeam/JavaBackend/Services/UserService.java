@@ -96,14 +96,8 @@ public class UserService implements UserDetailsService, IUserService {
     }
 
     @Transactional
-    public ResponseEntity<?> giveRoleToUsers(List<UUID> userIds, String userRole){
-        Role role;
-
-        try {
-            role = getRoleFromString(userRole);
-        } catch (IllegalArgumentException e){
-            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.NOT_FOUND.value(), "Заданной роли не существует"), HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<?> giveRoleToUsers(List<UUID> userIds, RoleRequest userRole){
+        Role role = userRole.getRole();
 
         if (role == Role.DEAN){
             return new ResponseEntity<>(
@@ -139,14 +133,8 @@ public class UserService implements UserDetailsService, IUserService {
     }
 
     @Transactional
-    public ResponseEntity<?> deleteRoleFromUser(User curUser, UUID userId, String userRole){
-        Role role;
-
-        try {
-             role = getRoleFromString(userRole);
-        } catch (IllegalArgumentException e){
-            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.NOT_FOUND.value(), "Заданной роли не существует"), HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<?> deleteRoleFromUser(User curUser, UUID userId, RoleRequest userRole){
+        Role role = userRole.getRole();
 
         if (curUser.getRole() != Role.ADMIN && (role == Role.DEAN || role == Role.ADMIN )){
             return new ResponseEntity<>(
@@ -207,23 +195,5 @@ public class UserService implements UserDetailsService, IUserService {
             default -> new SimpleGrantedAuthority("ROLE_USER");
         };
     }
-
-    private Role getRoleFromString(String role) {
-        switch (role) {
-            case "DEAN":
-                return Role.DEAN;
-            case "STUDENT":
-                return Role.STUDENT;
-            case "TEACHER":
-                return Role.TEACHER;
-            case "USER":
-                return Role.USER;
-            case "ADMIN":
-                return Role.ADMIN;
-            default:
-                throw new IllegalArgumentException();
-        }
-    }
-
 }
 

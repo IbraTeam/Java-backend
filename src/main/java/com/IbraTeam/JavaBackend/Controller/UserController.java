@@ -2,6 +2,7 @@ package com.IbraTeam.JavaBackend.Controller;
 
 import com.IbraTeam.JavaBackend.Exceptions.ExceptionResponse;
 import com.IbraTeam.JavaBackend.Models.User.LoginCredentials;
+import com.IbraTeam.JavaBackend.Models.User.RoleRequest;
 import com.IbraTeam.JavaBackend.Models.User.User;
 import com.IbraTeam.JavaBackend.Models.User.UserRegisterModel;
 import com.IbraTeam.JavaBackend.Services.IUserService;
@@ -11,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -98,9 +100,12 @@ public class UserController {
 
     @Transactional
     @PatchMapping("/role")
-    public ResponseEntity<?> giveRoleToUsers(@RequestParam(name = "userIds") List<UUID> userIds, @RequestBody String role){
+    public ResponseEntity<?> giveRoleToUsers(@RequestParam(name = "userIds") List<UUID> userIds, @Valid @RequestBody RoleRequest role){
         try {
             return userService.giveRoleToUsers(userIds, role);
+        }
+        catch (HttpMessageNotReadableException e){
+            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), "Заданной роли не существует"), HttpStatus.BAD_REQUEST);
         }
         catch (Exception e) {
             return new ResponseEntity<>(new ExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -109,7 +114,7 @@ public class UserController {
 
     @Transactional
     @DeleteMapping("/role/{userId}")
-    public ResponseEntity<?> deleteRoleFromUser(@AuthenticationPrincipal User user, @PathVariable UUID userId, @RequestBody String role){
+    public ResponseEntity<?> deleteRoleFromUser(@AuthenticationPrincipal User user, @PathVariable UUID userId, @RequestBody RoleRequest role){
         try {
             return userService.deleteRoleFromUser(user, userId, role);
         }

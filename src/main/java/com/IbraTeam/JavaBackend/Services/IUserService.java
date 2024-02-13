@@ -1,6 +1,7 @@
 package com.IbraTeam.JavaBackend.Services;
 
 import com.IbraTeam.JavaBackend.Models.User.LoginCredentials;
+import com.IbraTeam.JavaBackend.Models.User.RoleRequest;
 import com.IbraTeam.JavaBackend.Models.User.User;
 import com.IbraTeam.JavaBackend.Models.User.UserRegisterModel;
 import com.IbraTeam.JavaBackend.enums.Role;
@@ -17,7 +18,7 @@ public interface IUserService {
     ResponseEntity<?> logoutUser(String token);
     ResponseEntity<?> getUserProfile(User user);
     ResponseEntity<?> getStudentsAndTeachers();
-    ResponseEntity<?> giveRoleToUsers(List<UUID> userIds, String role);
-    ResponseEntity<?> deleteRoleFromUser(User curUser, UUID userId, String role);
+    ResponseEntity<?> giveRoleToUsers(List<UUID> userIds, RoleRequest role);
+    ResponseEntity<?> deleteRoleFromUser(User curUser, UUID userId, RoleRequest role);
     ResponseEntity<?> giveRoleDean(List<UUID> userIds);
 }
