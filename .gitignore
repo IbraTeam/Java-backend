@@ -20,6 +20,7 @@ HELP.md
 *.ipr
 
 ### NetBeans ###
+application-dev.properties
 !**/src/main/resources/application-dev.properties
 /nbproject/private/
 /nbbuild/
