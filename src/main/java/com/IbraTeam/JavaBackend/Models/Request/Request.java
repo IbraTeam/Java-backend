@@ -1,21 +1,27 @@
-package com.IbraTeam.JavaBackend.model;
+package com.IbraTeam.JavaBackend.Models.Request;
 
+import com.IbraTeam.JavaBackend.Models.Key.AudienceKey;
+import com.IbraTeam.JavaBackend.Models.User.User;
 import com.IbraTeam.JavaBackend.enums.PairNumber;
 import com.IbraTeam.JavaBackend.enums.Status;
 import com.IbraTeam.JavaBackend.enums.Type;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Entity
 @Table(name = "requests")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Request {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(nullable = false)
     private String name;
