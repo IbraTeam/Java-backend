@@ -6,7 +6,7 @@ services:
     restart: always
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: gbhfns
       POSTGRES_DB: teamwork
     ports:
       - "5432:5432"
@@ -29,6 +29,6 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/teamwork
       SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_PASSWORD: gbhfns
       SPRING_REDIS_HOST: redis
       SPRING_REDIS_PORT: 6379
