@@ -1,12 +1,11 @@
 package com.IbraTeam.JavaBackend.Controller;
 
-import com.IbraTeam.JavaBackend.Exceptions.ExceptionResponse;
+import com.IbraTeam.JavaBackend.Models.Response;
 import com.IbraTeam.JavaBackend.Models.User.LoginCredentials;
 import com.IbraTeam.JavaBackend.Models.User.RoleRequest;
 import com.IbraTeam.JavaBackend.Models.User.User;
 import com.IbraTeam.JavaBackend.Models.User.UserRegisterModel;
 import com.IbraTeam.JavaBackend.Services.IUserService;
-import com.IbraTeam.JavaBackend.enums.Role;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -40,10 +39,10 @@ public class UserController {
             return userService.registerNewUser(userRegisterModel);
         }
         catch (BadCredentialsException e) {
-            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), "Данные введены некорректно"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Response(HttpStatus.BAD_REQUEST.value(), "Данные введены некорректно"), HttpStatus.BAD_REQUEST);
         }
         catch (Exception e) {
-            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -53,7 +52,7 @@ public class UserController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginCredentials.getEmail(), loginCredentials.getPassword()));
         } catch (BadCredentialsException e) {
-            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), "Неправильный логин или пароль"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Response(HttpStatus.BAD_REQUEST.value(), "Неправильный логин или пароль"), HttpStatus.BAD_REQUEST);
         }
 
         return userService.loginUser(loginCredentials);
@@ -65,7 +64,7 @@ public class UserController {
         try {
             return userService.logoutUser(token);
         } catch (Exception e) {
-            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -75,7 +74,7 @@ public class UserController {
         try {
             return userService.getUserProfile(user);
         } catch (Exception e) {
-            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -84,7 +83,7 @@ public class UserController {
         try {
             return ResponseEntity.ok(user.getRole());
         } catch (Exception e) {
-            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -94,7 +93,7 @@ public class UserController {
         try {
             return userService.getStudentsAndTeachers();
         } catch (Exception e) {
-            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -105,10 +104,10 @@ public class UserController {
             return userService.giveRoleToUsers(userIds, role);
         }
         catch (HttpMessageNotReadableException e){
-            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), "Заданной роли не существует"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Response(HttpStatus.BAD_REQUEST.value(), "Заданной роли не существует"), HttpStatus.BAD_REQUEST);
         }
         catch (Exception e) {
-            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -119,7 +118,7 @@ public class UserController {
             return userService.deleteRoleFromUser(user, userId, role);
         }
         catch (Exception e) {
-            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -129,7 +128,7 @@ public class UserController {
         try {
             return userService.giveRoleDean(userIds);
         } catch (Exception e) {
-            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

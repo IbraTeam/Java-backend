@@ -1,6 +1,6 @@
 package com.IbraTeam.JavaBackend.Services;
 
-import com.IbraTeam.JavaBackend.Exceptions.ExceptionResponse;
+import com.IbraTeam.JavaBackend.Models.Response;
 import com.IbraTeam.JavaBackend.Mappers.UserMapper;
 import com.IbraTeam.JavaBackend.Models.User.*;
 import com.IbraTeam.JavaBackend.Repositories.RedisRepository;
@@ -38,7 +38,7 @@ public class UserService implements UserDetailsService, IUserService {
     @Transactional
     public ResponseEntity<?> registerNewUser(UserRegisterModel userRegisterModel){
         if (userRepository.findByEmail(userRegisterModel.getEmail()) != null) {
-            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.BAD_REQUEST.value(),
+            return new ResponseEntity<>(new Response(HttpStatus.BAD_REQUEST.value(),
                     "Пользователь с такой почтой уже существует"), HttpStatus.BAD_REQUEST);
         }
 
@@ -101,12 +101,12 @@ public class UserService implements UserDetailsService, IUserService {
 
         if (role == Role.DEAN){
             return new ResponseEntity<>(
-                    new ExceptionResponse(HttpStatus.FORBIDDEN.value(),
+                    new Response(HttpStatus.FORBIDDEN.value(),
                             "Вы не можете назначить пользователю роль деканат"), HttpStatus.FORBIDDEN);
         }
         else if (role == Role.ADMIN){
             return new ResponseEntity<>(
-                    new ExceptionResponse(HttpStatus.FORBIDDEN.value(),
+                    new Response(HttpStatus.FORBIDDEN.value(),
                             "Вы не можете назначить пользователю роль администратор"), HttpStatus.FORBIDDEN);
         }
 
@@ -115,7 +115,7 @@ public class UserService implements UserDetailsService, IUserService {
             User user = userRepository.findUserById(userId);
             if (user == null){
                 return new ResponseEntity<>(
-                        new ExceptionResponse(HttpStatus.NOT_FOUND.value(),
+                        new Response(HttpStatus.NOT_FOUND.value(),
                                 "Пользователь с id: " + userId + " не найден"), HttpStatus.NOT_FOUND);
             }
 
@@ -138,7 +138,7 @@ public class UserService implements UserDetailsService, IUserService {
 
         if (curUser.getRole() != Role.ADMIN && (role == Role.DEAN || role == Role.ADMIN )){
             return new ResponseEntity<>(
-                    new ExceptionResponse(HttpStatus.FORBIDDEN.value(),
+                    new Response(HttpStatus.FORBIDDEN.value(),
                             "Вы не можете удалить пользователю данную роль"), HttpStatus.FORBIDDEN);
         }
 
@@ -146,13 +146,13 @@ public class UserService implements UserDetailsService, IUserService {
         User user = userRepository.findUserById(userId);
         if (user == null){
             return new ResponseEntity<>(
-                    new ExceptionResponse(HttpStatus.NOT_FOUND.value(),
+                    new Response(HttpStatus.NOT_FOUND.value(),
                             "Пользователь с id: " + userId + " не найден"), HttpStatus.NOT_FOUND);
         }
 
         if (!user.getAuthorities().contains(authority)){
             return new ResponseEntity<>(
-                    new ExceptionResponse(HttpStatus.NOT_FOUND.value(),
+                    new Response(HttpStatus.NOT_FOUND.value(),
                             "Пользователь с id: " + userId + " не содержит заданной роли"), HttpStatus.NOT_FOUND);
         }
 
@@ -173,7 +173,7 @@ public class UserService implements UserDetailsService, IUserService {
             User user = userRepository.findUserById(userId);
             if (user == null){
                 return new ResponseEntity<>(
-                        new ExceptionResponse(HttpStatus.NOT_FOUND.value(),
+                        new Response(HttpStatus.NOT_FOUND.value(),
                                 "Пользователь с id: " + userId + " не найден"), HttpStatus.NOT_FOUND);
             }
 
