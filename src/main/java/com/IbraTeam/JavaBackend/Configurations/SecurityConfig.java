@@ -5,6 +5,7 @@ import com.IbraTeam.JavaBackend.Services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -38,6 +39,11 @@ public class SecurityConfig {
                                 .requestMatchers("/api/account/role**").hasAnyRole("DEAN", "ADMIN")
                                 .requestMatchers("/api/account/role/**").hasAnyRole("DEAN", "ADMIN")
                                 .requestMatchers("/api/account/dean**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, " /api/audience-key").hasRole("DEAN")
+                                .requestMatchers(HttpMethod.DELETE, " /api/audience-key").hasRole("DEAN")
+                                .requestMatchers(HttpMethod.PATCH, "/api/audience-key/give/**").hasAnyRole("STUDENT", "TEACHER", "DEAN")
+                                .requestMatchers(HttpMethod.POST, "/api/audience-key/get").hasAnyRole("STUDENT", "TEACHER", "DEAN")
+                                .requestMatchers(HttpMethod.POST, "/api/audience-key/return/**").hasAnyRole("STUDENT", "TEACHER", "DEAN")
                                 .anyRequest().permitAll())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
