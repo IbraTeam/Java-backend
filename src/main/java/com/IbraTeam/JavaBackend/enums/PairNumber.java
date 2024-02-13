@@ -9,6 +9,6 @@ public enum PairNumber {
     Sixth,
     Seventh,
     Eighth,
-    Ningth,
+    Ninth,
     Ten
 }
