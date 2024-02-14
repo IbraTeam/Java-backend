@@ -5,6 +5,7 @@ import com.IbraTeam.JavaBackend.Models.Request.Request;
 import com.IbraTeam.JavaBackend.Models.User.User;
 import com.IbraTeam.JavaBackend.dao.KeyDAO;
 import com.IbraTeam.JavaBackend.dao.repository.KeyRepository;
+import com.IbraTeam.JavaBackend.dao.repository.RequestRepository;
 import com.IbraTeam.JavaBackend.dto.KeyDTO;
 import com.IbraTeam.JavaBackend.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,10 @@ public class KeyDAOImpl implements KeyDAO {
     @Autowired
     private UserRepository userRepository;
 
+
+    @Autowired
+    private RequestRepository requestRepository;
+    
     @Override
     public List<KeyDTO> getKeys() {
         return null;
@@ -65,7 +70,7 @@ public class KeyDAOImpl implements KeyDAO {
                 .orElseThrow(() -> new IllegalArgumentException("Key not found with id: " + keyId));
 
         // Todo: понять, как присоединить это к реквестам дотнета
-        Request request = requestRepository.findByUserAndKeyAndDateTimeAndStatus(user, key, dateTime, Status.Accepted)
+        Request request = requestRepository.findByAuthorAndKeyAndDateTimeAndStatus(user, key, dateTime, Status.Accepted)
                 .orElseThrow(() -> new IllegalArgumentException("No accepted request found for user " +
                         user.getUsername() + " and keyId " + keyId + " at dateTime " + dateTime));
 
