@@ -31,12 +31,12 @@ public class User implements UserDetails {
     private String name;
 
     @Column(length = 1000, nullable = false)
-    @Pattern(regexp = "^(?=.*\\d).{6,}$", message = "Password must be at least 6 letters and have at least 1 digit")
+    @Pattern(regexp = "^(?=.*\\d).{6,}$", message = "Пароль должен содержать не менее 6 символов и 1 цифры")
     private String password;
 
     @Column(nullable = false, unique = true)
     @Size(min = 1, message = "Минимальная длина не менее 1 символа")
-    @Pattern(regexp = "[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.[a-zA-Z0-9_-]+", message = "Invalid email address")
+    @Pattern(regexp = "[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.[a-zA-Z0-9_-]+", message = "Неверный адрес почты")
     private String email;
 
     @Enumerated(EnumType.STRING)

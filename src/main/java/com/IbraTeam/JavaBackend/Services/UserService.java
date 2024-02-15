@@ -7,6 +7,7 @@ import com.IbraTeam.JavaBackend.Repositories.RedisRepository;
 import com.IbraTeam.JavaBackend.Repositories.UserRepository;
 import com.IbraTeam.JavaBackend.Utils.JwtTokenUtils;
 import com.IbraTeam.JavaBackend.enums.Role;
+import io.lettuce.core.RedisConnectionException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -69,9 +70,13 @@ public class UserService implements UserDetailsService, IUserService {
             token = token.substring(7);
             tokenId = jwtTokenUtils.getIdFromToken(token);
         }
+        else{
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        }
         redisRepository.delete(tokenId);
 
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "Пользователь успешно вышел"), HttpStatus.OK);
     }
 
     @Transactional
@@ -96,10 +101,10 @@ public class UserService implements UserDetailsService, IUserService {
     }
 
     @Transactional
-    public ResponseEntity<?> giveRoleToUsers(List<UUID> userIds, RoleRequest userRole){
+    public ResponseEntity<?> giveRoleToUsers(User curUser, List<UUID> userIds, RoleRequest userRole){
         Role role = userRole.getRole();
 
-        if (role == Role.DEAN){
+        if (role == Role.DEAN && curUser.getRole() != Role.ADMIN){
             return new ResponseEntity<>(
                     new Response(HttpStatus.FORBIDDEN.value(),
                             "Вы не можете назначить пользователю роль деканат"), HttpStatus.FORBIDDEN);
@@ -129,14 +134,20 @@ public class UserService implements UserDetailsService, IUserService {
             userRepository.save(user);
         }
 
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "Роли успешно выданы"), HttpStatus.OK);
     }
 
     @Transactional
     public ResponseEntity<?> deleteRoleFromUser(User curUser, UUID userId, RoleRequest userRole){
         Role role = userRole.getRole();
 
-        if (curUser.getRole() != Role.ADMIN && (role == Role.DEAN || role == Role.ADMIN )){
+        if (role == Role.ADMIN){
+            return new ResponseEntity<>(
+                    new Response(HttpStatus.FORBIDDEN.value(),
+                            "Вы не можете удалить пользователю данную роль"), HttpStatus.FORBIDDEN);
+        }
+
+        if (curUser.getRole() != Role.ADMIN && role == Role.DEAN){
             return new ResponseEntity<>(
                     new Response(HttpStatus.FORBIDDEN.value(),
                             "Вы не можете удалить пользователю данную роль"), HttpStatus.FORBIDDEN);
@@ -161,7 +172,7 @@ public class UserService implements UserDetailsService, IUserService {
         authorities.remove(authority);
         user.setRole(Role.USER);
 
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "Роли успешно удалены"), HttpStatus.OK);
     }
 
     @Transactional
@@ -183,7 +194,7 @@ public class UserService implements UserDetailsService, IUserService {
             }
         }
 
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "Роли успешно выданы"), HttpStatus.OK);
     }
 
     private SimpleGrantedAuthority getAuthority(Role role){

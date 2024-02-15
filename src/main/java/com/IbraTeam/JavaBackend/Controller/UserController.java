@@ -6,6 +6,7 @@ import com.IbraTeam.JavaBackend.Models.User.RoleRequest;
 import com.IbraTeam.JavaBackend.Models.User.User;
 import com.IbraTeam.JavaBackend.Models.User.UserRegisterModel;
 import com.IbraTeam.JavaBackend.Services.IUserService;
+import io.lettuce.core.RedisConnectionException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +16,13 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.AccessDeniedException;
 import java.util.UUID;
 import java.util.List;
 
@@ -51,8 +55,14 @@ public class UserController {
     public ResponseEntity<?> loginUser(@RequestBody LoginCredentials loginCredentials){
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginCredentials.getEmail(), loginCredentials.getPassword()));
-        } catch (BadCredentialsException e) {
+        }
+        catch (BadCredentialsException e) {
             return new ResponseEntity<>(new Response(HttpStatus.BAD_REQUEST.value(), "Неправильный логин или пароль"), HttpStatus.BAD_REQUEST);
+        }catch (AuthenticationException e) {
+            return new ResponseEntity<>(new Response(HttpStatus.BAD_REQUEST.value(), "Неправильный логин или пароль"), HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return userService.loginUser(loginCredentials);
@@ -99,9 +109,9 @@ public class UserController {
 
     @Transactional
     @PatchMapping("/role")
-    public ResponseEntity<?> giveRoleToUsers(@RequestParam(name = "userIds") List<UUID> userIds, @Valid @RequestBody RoleRequest role){
+    public ResponseEntity<?> giveRoleToUsers(@AuthenticationPrincipal User user, @RequestParam(name = "userIds") List<UUID> userIds, @Valid @RequestBody RoleRequest role){
         try {
-            return userService.giveRoleToUsers(userIds, role);
+            return userService.giveRoleToUsers(user, userIds, role);
         }
         catch (HttpMessageNotReadableException e){
             return new ResponseEntity<>(new Response(HttpStatus.BAD_REQUEST.value(), "Заданной роли не существует"), HttpStatus.BAD_REQUEST);

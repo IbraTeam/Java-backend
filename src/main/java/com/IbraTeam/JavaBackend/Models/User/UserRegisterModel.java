@@ -21,6 +21,6 @@ public class UserRegisterModel {
     private String email;
 
     @NotNull
-    @Pattern(regexp = "^(?=.*\\d).{6,}$", message = "Password must be at least 6 letters and have at least 1 digit")
+    @Pattern(regexp = "^(?=.*\\d).{6,}$", message = "Пароль должен содержать не менее 6 символов и 1 цифры")
     private String password;
 }

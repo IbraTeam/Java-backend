@@ -18,7 +18,7 @@ public interface IUserService {
     ResponseEntity<?> logoutUser(String token);
     ResponseEntity<?> getUserProfile(User user);
     ResponseEntity<?> getStudentsAndTeachers();
-    ResponseEntity<?> giveRoleToUsers(List<UUID> userIds, RoleRequest role);
+    ResponseEntity<?> giveRoleToUsers(User curUser, List<UUID> userIds, RoleRequest role);
     ResponseEntity<?> deleteRoleFromUser(User curUser, UUID userId, RoleRequest role);
     ResponseEntity<?> giveRoleDean(List<UUID> userIds);
 }
