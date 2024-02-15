@@ -8,10 +8,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface RequestRepository extends JpaRepository<Request, UUID> {
     Optional<Request> findByAuthorAndKeyAndDateTimeAndStatus(User author, AudienceKey key, LocalDateTime dateTime, Status status);
+
+    Request findTopByAuthorAndKeyOrderByDateTimeDesc(User user, AudienceKey key);
+
+    List<Request> findAllByAuthorAndRepeatedIsTrue(User user);
+
+    Request findTopByAuthorAndKeyAndStatusOrderByDateTimeDesc(User user, AudienceKey key, Status issued);
 }

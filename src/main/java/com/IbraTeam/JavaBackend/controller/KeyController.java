@@ -3,10 +3,13 @@ package com.IbraTeam.JavaBackend.controller;
 
 import com.IbraTeam.JavaBackend.Models.User.User;
 import com.IbraTeam.JavaBackend.dto.KeyDTO;
+import com.IbraTeam.JavaBackend.dto.KeyInfoDTO;
+import com.IbraTeam.JavaBackend.exceptions.ResourceNotFoundException;
 import com.IbraTeam.JavaBackend.service.KeyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +26,9 @@ public class KeyController {
     private KeyService keyService;
 
     @GetMapping
-    public ResponseEntity<List<KeyDTO>> getKeys() {
-        return ResponseEntity.ok(keyService.getKeys());
+    public ResponseEntity<List<KeyInfoDTO>> getKeys(@AuthenticationPrincipal User user) {
+        List<KeyInfoDTO> keyInfoList = keyService.getKeys(user);
+        return ResponseEntity.ok(keyInfoList);
     }
 
     @PostMapping
@@ -41,9 +45,10 @@ public class KeyController {
 
     @PatchMapping("/give/{userId}")
     public ResponseEntity giveKey(
+                                  @AuthenticationPrincipal User user,
                                   @PathVariable UUID userId,
                                   @RequestBody UUID keyId) {
-        keyService.giveKey(userId, keyId);
+        keyService.giveKey(user.getId(), userId, keyId);
         return ResponseEntity.ok().build();
     }
 
@@ -56,10 +61,42 @@ public class KeyController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/accept/{keyId}")
+    public ResponseEntity acceptKey(@PathVariable UUID keyId,
+                                    @AuthenticationPrincipal User user) {
+        keyService.acceptKey(user.getId(), keyId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/accept/{keyId}")
+    public ResponseEntity rejectKey(@PathVariable UUID keyId,
+                                 @AuthenticationPrincipal User user) {
+        keyService.rejectKey(user.getId(), keyId);
+        return ResponseEntity.ok().build();
+    }
+
+
+    @PostMapping("/cancel/{keyId}")
+    public ResponseEntity cancelKeyTransfer(@PathVariable UUID keyId,
+                                            @AuthenticationPrincipal User user) {
+        keyService.cancelKeyTransfer(user.getId(), keyId);
+        return ResponseEntity.ok().build();
+    }
+
+
     @PatchMapping("return/{keyId}")
     public ResponseEntity returnKey(@PathVariable UUID keyId) {
         keyService.returnKey(keyId);
         return ResponseEntity.ok().build();
     }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        String errorMessage = ex.getMessage();
+        return ResponseEntity.status(status).body(errorMessage);
+    }
+
+
 }
 
