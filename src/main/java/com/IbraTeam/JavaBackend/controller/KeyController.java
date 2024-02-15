@@ -55,9 +55,8 @@ public class KeyController {
 
     @PatchMapping("/get/{keyId}")
     public ResponseEntity getKey(@PathVariable UUID keyId,
-                                 @RequestBody LocalDateTime dateTime,
                                  @AuthenticationPrincipal User user) {
-        keyService.getKey(keyId, dateTime, user);
+        keyService.getKey(keyId, user);
         return ResponseEntity.ok().build();
     }
 
@@ -68,7 +67,7 @@ public class KeyController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/accept/{keyId}")
+    @PostMapping("/reject/{keyId}")
     public ResponseEntity rejectKey(@PathVariable UUID keyId,
                                  @AuthenticationPrincipal User user) {
         keyService.rejectKey(user.getId(), keyId);

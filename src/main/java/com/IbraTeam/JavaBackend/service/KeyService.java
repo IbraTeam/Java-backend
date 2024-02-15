@@ -17,7 +17,7 @@ public interface KeyService {
 
     void giveKey(UUID fromUserId, UUID userId, UUID keyId);
 
-    void getKey(UUID keyId, LocalDateTime dateTime, User user);
+    void getKey(UUID keyId, User user);
 
     void acceptKey(UUID toUserId, UUID keyId);
 

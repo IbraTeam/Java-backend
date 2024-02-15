@@ -162,14 +162,14 @@ public class KeyDAOImpl implements KeyDAO {
     }
 
     @Override
-    public void getKey(UUID keyId, LocalDateTime dateTime, User user) {
+    public void getKey(UUID keyId, User user) {
         AudienceKey key = keyRepository.findById(keyId)
                 .orElseThrow(() -> new ResourceNotFoundException("Key not found with id: " + keyId));
 
         // Todo: понять, как присоединить это к реквестам дотнета
-        Request request = requestRepository.findByAuthorAndKeyAndDateTimeAndStatus(user, key, dateTime, Status.Accepted)
+        Request request = requestRepository.findByAuthorAndKeyAndStatus(user, key, Status.Accepted)
                 .orElseThrow(() -> new ResourceNotFoundException("No accepted request found for user " +
-                        user.getUsername() + " and keyId " + keyId + " at dateTime " + dateTime));
+                        user.getUsername() + " and keyId " + keyId));
 
         key.setUser(user);
         key.setStatus(KeyStatus.ON_HANDS);

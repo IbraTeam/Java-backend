@@ -43,8 +43,8 @@ public class KeyServiceImpl implements KeyService {
     }
 
     @Override
-    public void getKey(UUID keyId, LocalDateTime dateTime, User user) {
-        keyDAO.getKey(keyId, dateTime, user);
+    public void getKey(UUID keyId, User user) {
+        keyDAO.getKey(keyId, user);
     }
 
     @Override

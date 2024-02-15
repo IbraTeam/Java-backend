@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @Repository
 public interface RequestRepository extends JpaRepository<Request, UUID> {
-    Optional<Request> findByAuthorAndKeyAndDateTimeAndStatus(User author, AudienceKey key, LocalDateTime dateTime, Status status);
+    Optional<Request> findByAuthorAndKeyAndStatus(User author, AudienceKey key, Status status);
 
     Request findTopByAuthorAndKeyOrderByDateTimeDesc(User user, AudienceKey key);
 
