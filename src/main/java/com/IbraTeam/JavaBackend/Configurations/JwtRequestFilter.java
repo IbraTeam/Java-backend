@@ -34,7 +34,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String jwt = null;
         boolean tokenInRedis = false;
 
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost");
+        response.setHeader("Access-Control-Allow-Origin", "http://*");
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With, X-Auth-Token");
 
