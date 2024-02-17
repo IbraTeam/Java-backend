@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping("audience-key")
+@RequestMapping("/api/audience-key")
 public class KeyController {
     @Autowired
     private KeyService keyService;
