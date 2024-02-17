@@ -21,4 +21,6 @@ public interface RequestRepository extends JpaRepository<Request, UUID> {
     List<Request> findAllByAuthorAndRepeatedIsTrue(User user);
 
     Request findTopByAuthorAndKeyAndStatusOrderByDateTimeDesc(User user, AudienceKey key, Status issued);
+
+    List<Request> findAllByAuthorAndKeyAndStatus(User user, AudienceKey key, Status accepted);
 }

@@ -33,8 +33,6 @@ public class Request {
     @Column(nullable = false)
     private LocalDateTime dateTime;
 
-    @Column(nullable = false)
-    private boolean repeated;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -51,4 +49,11 @@ public class Request {
     @Column(name = "pair_number", nullable = false)
     private PairNumber pairNumber;
 
+
+    @Column(name = "repeat_count", nullable = false)
+    private int repeatCount;
+
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "repeat_id")
+    private UUID repeatId;
 }

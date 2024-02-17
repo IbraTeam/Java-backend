@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -75,7 +76,7 @@ public class KeyDAOImpl implements KeyDAO {
             userKeys.add(keyDTO);
         }
 
-        // Учли трансферные ключи, теперь нужно отследить на руках и ожидающие в деканате
+        // Учли трансферные ключи, теперь нужно отследить на руках
 
         List<AudienceKey> keysOnHands = keyRepository.findByUser(user);
         for (AudienceKey key : keysOnHands) {
@@ -95,26 +96,29 @@ public class KeyDAOImpl implements KeyDAO {
         }
 
         // Учли ключи на руках, теперь нужно выдать ключи, ожидающие в деканате
-
         List<AudienceKey> keysInDean = keyRepository.findAllByStatus(KeyStatus.IN_DEAN);
         for (AudienceKey key : keysInDean) {
-            // Найдем для ключа последнюю заявку
-            Request lastRequest = requestRepository.findTopByAuthorAndKeyOrderByDateTimeDesc(user, key);
 
-            if (lastRequest != null && lastRequest.getStatus() == Status.Accepted) {
+            List<Request> acceptedRequests = requestRepository.findAllByAuthorAndKeyAndStatus(user, key, Status.Accepted);
+
+
+            Request firstRequest = acceptedRequests.stream()
+                    .min(Comparator.comparing(Request::getDateTime))
+                    .orElse(null);
+
+            if (firstRequest != null) {
                 // Если последняя заявка пользователя на этот ключ одобрена
                 KeyInfoDTO keyDTO = new KeyInfoDTO();
                 keyDTO.setKeyId(key.getId());
                 keyDTO.setRoom(key.getRoom());
-                keyDTO.setDateTime(lastRequest.getDateTime());
-                keyDTO.setPairNumber(lastRequest.getPairNumber());
-                keyDTO.setTransferStatus(KeyStatus.IN_DEAN); // Устанавливаем статус "В деканате"
+                keyDTO.setDateTime(firstRequest.getDateTime());
+                keyDTO.setPairNumber(firstRequest.getPairNumber());
+                keyDTO.setTransferStatus(KeyStatus.IN_DEAN);
                 userKeys.add(keyDTO);
             }
         }
 
-
-        // TODO: обработать адеватно повторяющиеся заявки и добавить в выдачу
+        
 
         return userKeys;
 
@@ -167,15 +171,21 @@ public class KeyDAOImpl implements KeyDAO {
                 .orElseThrow(() -> new ResourceNotFoundException("Key not found with id: " + keyId));
 
         // Todo: понять, как присоединить это к реквестам дотнета
-        Request request = requestRepository.findByAuthorAndKeyAndStatus(user, key, Status.Accepted)
-                .orElseThrow(() -> new ResourceNotFoundException("No accepted request found for user " +
-                        user.getUsername() + " and keyId " + keyId));
+        List<Request> acceptedRequests = requestRepository.findAllByAuthorAndKeyAndStatus(user, key, Status.Accepted);
+
+        Request firstRequest = acceptedRequests.stream()
+                .min(Comparator.comparing(Request::getDateTime))
+                .orElse(null);
+
+        if (firstRequest == null) {
+            throw new ResourceNotFoundException("На этот ключ от пользователя не было одобрено заявок");
+        }
 
         key.setUser(user);
         key.setStatus(KeyStatus.ON_HANDS);
-        request.setStatus(Status.Issued);
+        firstRequest.setStatus(Status.Issued);
         keyRepository.save(key);
-
+        requestRepository.save(firstRequest);
     }
 
 
