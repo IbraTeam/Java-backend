@@ -1,7 +1,7 @@
 package com.IbraTeam.JavaBackend.Models.User;
 
 
-import com.IbraTeam.JavaBackend.enums.Role;
+import com.IbraTeam.JavaBackend.Enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

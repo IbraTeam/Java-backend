@@ -1,14 +1,20 @@
 package com.IbraTeam.JavaBackend.Services;
 
 import com.IbraTeam.JavaBackend.Mappers.UserMapper;
-import com.IbraTeam.JavaBackend.Models.Response;
+import com.IbraTeam.JavaBackend.Models.Response.PageResponse;
+import com.IbraTeam.JavaBackend.Models.Response.Response;
+import com.IbraTeam.JavaBackend.Models.Response.UsersResponse;
 import com.IbraTeam.JavaBackend.Models.User.*;
 import com.IbraTeam.JavaBackend.Repositories.RedisRepository;
 import com.IbraTeam.JavaBackend.Repositories.UserRepository;
 import com.IbraTeam.JavaBackend.Utils.JwtTokenUtils;
-import com.IbraTeam.JavaBackend.enums.Role;
+import com.IbraTeam.JavaBackend.Enums.Role;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +26,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -82,26 +89,44 @@ public class UserService implements UserDetailsService, IUserService {
         return ResponseEntity.ok(UserMapper.userToUserDto(user));
     }
 
-    public ResponseEntity<?> getUsersWithChosenRoles(List<Role> roles, UsernameRequest name){
-        List<UserDto> users;
+    public ResponseEntity<?> getUsersWithChosenRoles(List<Role> roles, UsernameRequest name, int page, int size){
+        Page<UserDto> userPage;
+        long totalUsers;
+        int totalPages;
+
+        Pageable pageable = PageRequest.of(page, size);
 
         if (roles == null){
-            users = userRepository.findAll()
-                    .stream()
+            Page<User> users =userRepository.findAll(pageable);
+
+            userPage = users
                     .map(UserMapper::userToUserDto)
+                    .stream()
                     .filter(user -> name == null || user.getName().contains(name.getName()))
-                    .toList();
+                    .collect(Collectors.collectingAndThen(Collectors.toList(), PageImpl::new));
+
+            totalUsers = userRepository.count();
         }
         else {
-            users = userRepository.findAllByRoleIn(roles)
+            Page<User> users = userRepository.findAllByRoleIn(roles, pageable);
+            userPage = users
                     .stream()
                     .map(UserMapper::userToUserDto)
-                    .filter(user -> name == null || user.getName().contains(name.getName()))
-                    .toList();
-
+                    .filter(userDto -> name == null || userDto.getName().contains(name.getName()))
+                    .collect(Collectors.collectingAndThen(Collectors.toList(), PageImpl::new));
+            totalUsers = userRepository.countByRoleIn(roles);
         }
+        totalPages = (int) Math.ceil((double) totalUsers / size);
 
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(new UsersResponse(
+            userPage.getContent(),
+                new PageResponse(
+                        totalPages,
+                        page,
+                        userPage.getSize(),
+                        totalUsers
+                )
+        ));
     }
 
     @Transactional

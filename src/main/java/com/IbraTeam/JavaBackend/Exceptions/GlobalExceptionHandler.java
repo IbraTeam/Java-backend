@@ -1,6 +1,6 @@
 package com.IbraTeam.JavaBackend.Exceptions;
 
-import com.IbraTeam.JavaBackend.Models.Response;
+import com.IbraTeam.JavaBackend.Models.Response.Response;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

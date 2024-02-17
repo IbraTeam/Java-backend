@@ -1,4 +1,4 @@
-package com.IbraTeam.JavaBackend.Models;
+package com.IbraTeam.JavaBackend.Models.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

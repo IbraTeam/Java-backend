@@ -3,7 +3,7 @@ package com.IbraTeam.JavaBackend.Mappers;
 import com.IbraTeam.JavaBackend.Models.User.User;
 import com.IbraTeam.JavaBackend.Models.User.UserDto;
 import com.IbraTeam.JavaBackend.Models.User.UserRegisterModel;
-import com.IbraTeam.JavaBackend.enums.Role;
+import com.IbraTeam.JavaBackend.Enums.Role;
 
 import java.util.UUID;
 

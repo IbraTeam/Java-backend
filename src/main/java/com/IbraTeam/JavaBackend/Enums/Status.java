@@ -1,4 +1,4 @@
-package com.IbraTeam.JavaBackend.enums;
+package com.IbraTeam.JavaBackend.Enums;
 public enum Status {
     Pending,
     Accepted,

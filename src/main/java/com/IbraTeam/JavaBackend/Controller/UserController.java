@@ -1,9 +1,9 @@
 package com.IbraTeam.JavaBackend.Controller;
 
-import com.IbraTeam.JavaBackend.Models.Response;
+import com.IbraTeam.JavaBackend.Models.Response.Response;
 import com.IbraTeam.JavaBackend.Models.User.*;
 import com.IbraTeam.JavaBackend.Services.IUserService;
-import com.IbraTeam.JavaBackend.enums.Role;
+import com.IbraTeam.JavaBackend.Enums.Role;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -95,9 +95,11 @@ public class UserController {
     @Transactional
     @GetMapping("/users")
     public ResponseEntity<?> getUsers(@RequestParam(value = "roles", required = false)List<Role> roles,
-                                      @RequestBody(required = false) UsernameRequest name){
+                                      @RequestParam(name = "name", required = false) UsernameRequest name,
+                                      @RequestParam(name = "page", defaultValue = "0") int page,
+                                      @RequestParam(name = "size", defaultValue = "5") int size){
         try {
-            return userService.getUsersWithChosenRoles(roles, name);
+            return userService.getUsersWithChosenRoles(roles, name, page, size);
         }
         catch (Exception e) {
             return new ResponseEntity<>(new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);

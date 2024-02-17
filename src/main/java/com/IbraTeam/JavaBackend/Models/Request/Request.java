@@ -2,9 +2,9 @@ package com.IbraTeam.JavaBackend.Models.Request;
 
 import com.IbraTeam.JavaBackend.Models.Key.AudienceKey;
 import com.IbraTeam.JavaBackend.Models.User.User;
-import com.IbraTeam.JavaBackend.enums.PairNumber;
-import com.IbraTeam.JavaBackend.enums.Status;
-import com.IbraTeam.JavaBackend.enums.Type;
+import com.IbraTeam.JavaBackend.Enums.PairNumber;
+import com.IbraTeam.JavaBackend.Enums.Status;
+import com.IbraTeam.JavaBackend.Enums.Type;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

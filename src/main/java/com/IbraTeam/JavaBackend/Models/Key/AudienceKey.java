@@ -2,7 +2,7 @@ package com.IbraTeam.JavaBackend.Models.Key;
 
 
 import com.IbraTeam.JavaBackend.Models.User.User;
-import com.IbraTeam.JavaBackend.enums.KeyStatus;
+import com.IbraTeam.JavaBackend.Enums.KeyStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

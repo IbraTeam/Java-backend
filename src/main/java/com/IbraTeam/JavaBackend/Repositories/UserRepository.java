@@ -1,7 +1,9 @@
 package com.IbraTeam.JavaBackend.Repositories;
 
 import com.IbraTeam.JavaBackend.Models.User.User;
-import com.IbraTeam.JavaBackend.enums.Role;
+import com.IbraTeam.JavaBackend.Enums.Role;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +14,7 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, UUID> {
     User findByEmail(String email);
 
-    List<User> findAllByRoleIn(List<Role> roles);
-
+    Page<User> findAllByRoleIn(List<Role> roles, Pageable pageable);
+    int countByRoleIn(List<Role> roles);
     User findUserById(UUID id);
 }

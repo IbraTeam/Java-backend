@@ -1,7 +1,7 @@
 package com.IbraTeam.JavaBackend.Services;
 
 import com.IbraTeam.JavaBackend.Models.User.*;
-import com.IbraTeam.JavaBackend.enums.Role;
+import com.IbraTeam.JavaBackend.Enums.Role;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public interface IUserService {
     ResponseEntity<?> loginUser(LoginCredentials loginCredentials);
     ResponseEntity<?> logoutUser(String token);
     ResponseEntity<?> getUserProfile(User user);
-    ResponseEntity<?> getUsersWithChosenRoles(List<Role> roles, UsernameRequest name);
+    ResponseEntity<?> getUsersWithChosenRoles(List<Role> roles, UsernameRequest name, int page, int size);
     ResponseEntity<?> giveRoleToUsers(User curUser, List<UUID> userIds, RoleRequest role);
     ResponseEntity<?> deleteRoleFromUser(User curUser, UUID userId, RoleRequest role);
     ResponseEntity<?> giveRoleDean(List<UUID> userIds);

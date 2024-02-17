@@ -1,7 +1,7 @@
 package com.IbraTeam.JavaBackend.Models.dto;
 
-import com.IbraTeam.JavaBackend.enums.KeyStatus;
-import com.IbraTeam.JavaBackend.enums.PairNumber;
+import com.IbraTeam.JavaBackend.Enums.KeyStatus;
+import com.IbraTeam.JavaBackend.Enums.PairNumber;
 import lombok.Data;
 
 import java.time.LocalDateTime;
