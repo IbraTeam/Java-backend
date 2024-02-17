@@ -84,17 +84,23 @@ public class UserService implements UserDetailsService, IUserService {
         return ResponseEntity.ok(UserMapper.userToUserDto(user));
     }
 
-    public ResponseEntity<?> getStudentsAndTeachers(){
-        List<User> teachers = userRepository.findAllByRole(Role.TEACHER);
-        List<User> students = userRepository.findAllByRole(Role.STUDENT);
-        List<UserDto> users = new ArrayList<>();
+    public ResponseEntity<?> getUsersWithChosenRoles(List<Role> roles, UsernameRequest name){
+        List<UserDto> users;
 
-        for (User teacher : teachers){
-            users.add(UserMapper.userToUserDto(teacher));
+        if (roles == null){
+            users = userRepository.findAll()
+                    .stream()
+                    .map(UserMapper::userToUserDto)
+                    .filter(user -> name == null || user.getName().contains(name.getName()))
+                    .toList();
         }
+        else {
+            users = userRepository.findAllByRoleIn(roles)
+                    .stream()
+                    .map(UserMapper::userToUserDto)
+                    .filter(user -> name == null || user.getName().contains(name.getName()))
+                    .toList();
 
-        for (User student : students){
-            users.add(UserMapper.userToUserDto(student));
         }
 
         return ResponseEntity.ok(users);

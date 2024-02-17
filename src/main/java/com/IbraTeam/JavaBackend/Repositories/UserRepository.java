@@ -13,7 +13,7 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, UUID> {
     User findByEmail(String email);
 
-    List<User> findAllByRole(Role role);
+    List<User> findAllByRoleIn(List<Role> roles);
 
     User findUserById(UUID id);
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.nio.file.AccessDeniedException;
 
@@ -29,6 +30,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<Response> handleMessageNotReadable(){
+        return new ResponseEntity<>(new Response(HttpStatus.BAD_REQUEST.value(), "Передано неверное значение атрибута"), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Response> handleMethodArgumentTypeMismatchException(){
         return new ResponseEntity<>(new Response(HttpStatus.BAD_REQUEST.value(), "Передано неверное значение атрибута"), HttpStatus.BAD_REQUEST);
     }
 

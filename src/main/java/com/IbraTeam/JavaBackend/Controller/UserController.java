@@ -1,11 +1,9 @@
 package com.IbraTeam.JavaBackend.Controller;
 
 import com.IbraTeam.JavaBackend.Models.Response;
-import com.IbraTeam.JavaBackend.Models.User.LoginCredentials;
-import com.IbraTeam.JavaBackend.Models.User.RoleRequest;
-import com.IbraTeam.JavaBackend.Models.User.User;
-import com.IbraTeam.JavaBackend.Models.User.UserRegisterModel;
+import com.IbraTeam.JavaBackend.Models.User.*;
 import com.IbraTeam.JavaBackend.Services.IUserService;
+import com.IbraTeam.JavaBackend.enums.Role;
 import io.lettuce.core.RedisConnectionException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -21,6 +19,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.nio.file.AccessDeniedException;
 import java.util.UUID;
@@ -99,10 +98,12 @@ public class UserController {
 
     @Transactional
     @GetMapping("/users")
-    public ResponseEntity<?> getUsers(){
+    public ResponseEntity<?> getUsers(@RequestParam(value = "roles", required = false)List<Role> roles,
+                                      @RequestBody(required = false) UsernameRequest name){
         try {
-            return userService.getStudentsAndTeachers();
-        } catch (Exception e) {
+            return userService.getUsersWithChosenRoles(roles, name);
+        }
+        catch (Exception e) {
             return new ResponseEntity<>(new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Что-то пошло не так"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

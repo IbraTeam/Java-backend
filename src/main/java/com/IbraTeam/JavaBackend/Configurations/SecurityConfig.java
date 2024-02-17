@@ -38,7 +38,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST,"/api/account/logout").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/api/account/profile").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/api/account/role").authenticated()
-                                .requestMatchers(HttpMethod.GET, "/api/account/users").hasRole("DEAN")
+                                .requestMatchers(HttpMethod.GET, "/api/account/users").authenticated()
                                 .requestMatchers(HttpMethod.PATCH, "/api/account/role*").hasAnyRole("DEAN", "ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/api/account/role/*").hasAnyRole("DEAN", "ADMIN")
                                 .requestMatchers(HttpMethod.PATCH, "/api/account/dean*").hasRole("ADMIN")
