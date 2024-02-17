@@ -128,6 +128,7 @@ public class KeyDAOImpl implements KeyDAO {
     @Override
     public KeyDTO createKey(KeyDTO keyDTO) {
         AudienceKey audienceKey = new AudienceKey();
+        audienceKey.setId(UUID.randomUUID());
         audienceKey.setRoom(keyDTO.getRoom());
         audienceKey.setUser(null);
         audienceKey.setStatus(KeyStatus.IN_DEAN);
