@@ -1,26 +1,14 @@
 package com.IbraTeam.JavaBackend.dto;
 
+import lombok.Data;
+
 import java.util.UUID;
 
+@Data
 public class KeyDTO {
     private UUID Id;
     private String room;
 
 
-    public void setId(UUID uuid) {
-        this.Id = uuid;
-    }
-
-    public UUID getId() {
-        return Id;
-    }
-
-    public String getRoom() {
-        return room;
-    }
-
-    public void setRoom(String room) {
-        this.room = room;
-    }
 
 }

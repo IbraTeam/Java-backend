@@ -3,6 +3,7 @@ package com.IbraTeam.JavaBackend.service;
 import com.IbraTeam.JavaBackend.Models.User.User;
 import com.IbraTeam.JavaBackend.dto.KeyDTO;
 import com.IbraTeam.JavaBackend.dto.KeyInfoDTO;
+import com.IbraTeam.JavaBackend.dto.KeyResponse;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,5 +28,6 @@ public interface KeyService {
 
     void returnKey(UUID keyId);
 
+    List<KeyResponse> getAllKeys();
 
 }

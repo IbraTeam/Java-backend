@@ -6,6 +6,7 @@ import com.IbraTeam.JavaBackend.Models.User.User;
 import com.IbraTeam.JavaBackend.dao.KeyDAO;
 import com.IbraTeam.JavaBackend.dto.KeyDTO;
 import com.IbraTeam.JavaBackend.dto.KeyInfoDTO;
+import com.IbraTeam.JavaBackend.dto.KeyResponse;
 import com.IbraTeam.JavaBackend.service.KeyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class KeyServiceImpl implements KeyService {
@@ -65,5 +67,10 @@ public class KeyServiceImpl implements KeyService {
     @Override
     public void returnKey(UUID keyId) {
         keyDAO.returnKey(keyId);
+    }
+
+    @Override
+    public List<KeyResponse> getAllKeys() {
+        return keyDAO.getAllKeys().stream().map(KeyResponse::from).collect(Collectors.toList());
     }
 }

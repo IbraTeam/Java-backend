@@ -27,4 +27,6 @@ public interface KeyDAO {
     void cancelKeyTransfer(UUID fromUserId, UUID keyId);
 
     void returnKey(UUID keyId);
+
+    List<AudienceKey> getAllKeys();
 }

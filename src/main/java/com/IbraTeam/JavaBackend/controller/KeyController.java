@@ -4,6 +4,7 @@ package com.IbraTeam.JavaBackend.controller;
 import com.IbraTeam.JavaBackend.Models.User.User;
 import com.IbraTeam.JavaBackend.dto.KeyDTO;
 import com.IbraTeam.JavaBackend.dto.KeyInfoDTO;
+import com.IbraTeam.JavaBackend.dto.KeyResponse;
 import com.IbraTeam.JavaBackend.exceptions.ResourceNotFoundException;
 import com.IbraTeam.JavaBackend.service.KeyService;
 import lombok.extern.slf4j.Slf4j;
@@ -89,12 +90,18 @@ public class KeyController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/getAll")
+    public ResponseEntity<List<KeyResponse>> getAllKeys() {
+        return ResponseEntity.ok(keyService.getAllKeys());
+    }
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException ex) {
         HttpStatus status = HttpStatus.NOT_FOUND;
         String errorMessage = ex.getMessage();
         return ResponseEntity.status(status).body(errorMessage);
     }
+
 
 
 }

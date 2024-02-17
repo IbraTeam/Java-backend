@@ -118,7 +118,7 @@ public class KeyDAOImpl implements KeyDAO {
             }
         }
 
-        
+
 
         return userKeys;
 
@@ -251,5 +251,10 @@ public class KeyDAOImpl implements KeyDAO {
         key.setUser(null);
         key.setStatus(KeyStatus.IN_DEAN);
         keyRepository.save(key);
+    }
+
+    @Override
+    public List<AudienceKey> getAllKeys() {
+        return keyRepository.findAll();
     }
 }
