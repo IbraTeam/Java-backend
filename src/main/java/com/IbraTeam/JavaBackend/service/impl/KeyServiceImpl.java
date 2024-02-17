@@ -1,7 +1,5 @@
 package com.IbraTeam.JavaBackend.service.impl;
 
-import com.IbraTeam.JavaBackend.Models.Key.AudienceKey;
-import com.IbraTeam.JavaBackend.Models.Key.KeyTransfer;
 import com.IbraTeam.JavaBackend.Models.User.User;
 import com.IbraTeam.JavaBackend.dao.KeyDAO;
 import com.IbraTeam.JavaBackend.dto.KeyDTO;
@@ -11,8 +9,6 @@ import com.IbraTeam.JavaBackend.service.KeyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;

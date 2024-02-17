@@ -1,7 +1,6 @@
 package com.IbraTeam.JavaBackend.Configurations;
 
 import com.IbraTeam.JavaBackend.Models.Response;
-import com.IbraTeam.JavaBackend.Services.IUserService;
 import com.IbraTeam.JavaBackend.Services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;

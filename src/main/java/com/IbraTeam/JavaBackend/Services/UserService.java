@@ -1,13 +1,12 @@
 package com.IbraTeam.JavaBackend.Services;
 
-import com.IbraTeam.JavaBackend.Models.Response;
 import com.IbraTeam.JavaBackend.Mappers.UserMapper;
+import com.IbraTeam.JavaBackend.Models.Response;
 import com.IbraTeam.JavaBackend.Models.User.*;
 import com.IbraTeam.JavaBackend.Repositories.RedisRepository;
 import com.IbraTeam.JavaBackend.Repositories.UserRepository;
 import com.IbraTeam.JavaBackend.Utils.JwtTokenUtils;
 import com.IbraTeam.JavaBackend.enums.Role;
-import io.lettuce.core.RedisConnectionException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
