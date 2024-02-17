@@ -1,11 +1,10 @@
-package com.IbraTeam.JavaBackend.service.impl;
+package com.IbraTeam.JavaBackend.Services;
 
 import com.IbraTeam.JavaBackend.Models.User.User;
 import com.IbraTeam.JavaBackend.dao.KeyDAO;
-import com.IbraTeam.JavaBackend.dto.KeyDTO;
-import com.IbraTeam.JavaBackend.dto.KeyInfoDTO;
-import com.IbraTeam.JavaBackend.dto.KeyResponse;
-import com.IbraTeam.JavaBackend.service.KeyService;
+import com.IbraTeam.JavaBackend.Models.dto.KeyDTO;
+import com.IbraTeam.JavaBackend.Models.dto.KeyInfoDTO;
+import com.IbraTeam.JavaBackend.Models.dto.KeyResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

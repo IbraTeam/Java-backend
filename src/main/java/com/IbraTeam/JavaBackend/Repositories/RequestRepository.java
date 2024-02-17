@@ -1,4 +1,4 @@
-package com.IbraTeam.JavaBackend.dao.repository;
+package com.IbraTeam.JavaBackend.Repositories;
 
 import com.IbraTeam.JavaBackend.Models.Key.AudienceKey;
 import com.IbraTeam.JavaBackend.Models.Request.Request;
@@ -13,12 +13,6 @@ import java.util.UUID;
 
 @Repository
 public interface RequestRepository extends JpaRepository<Request, UUID> {
-    Optional<Request> findByAuthorAndKeyAndStatus(User author, AudienceKey key, Status status);
-
-    Request findTopByAuthorAndKeyOrderByDateTimeDesc(User user, AudienceKey key);
-
-    List<Request> findAllByAuthorAndRepeatedIsTrue(User user);
-
     Request findTopByAuthorAndKeyAndStatusOrderByDateTimeDesc(User user, AudienceKey key, Status issued);
 
     List<Request> findAllByAuthorAndKeyAndStatus(User user, AudienceKey key, Status accepted);

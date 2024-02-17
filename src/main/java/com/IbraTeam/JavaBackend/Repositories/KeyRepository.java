@@ -1,4 +1,4 @@
-package com.IbraTeam.JavaBackend.dao.repository;
+package com.IbraTeam.JavaBackend.Repositories;
 
 import com.IbraTeam.JavaBackend.Models.Key.AudienceKey;
 import com.IbraTeam.JavaBackend.Models.User.User;

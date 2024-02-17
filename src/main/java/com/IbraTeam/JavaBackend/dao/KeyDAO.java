@@ -2,8 +2,8 @@ package com.IbraTeam.JavaBackend.dao;
 
 import com.IbraTeam.JavaBackend.Models.Key.AudienceKey;
 import com.IbraTeam.JavaBackend.Models.User.User;
-import com.IbraTeam.JavaBackend.dto.KeyDTO;
-import com.IbraTeam.JavaBackend.dto.KeyInfoDTO;
+import com.IbraTeam.JavaBackend.Models.dto.KeyDTO;
+import com.IbraTeam.JavaBackend.Models.dto.KeyInfoDTO;
 
 import java.util.List;
 import java.util.UUID;

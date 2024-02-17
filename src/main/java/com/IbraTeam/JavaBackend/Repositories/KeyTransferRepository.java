@@ -1,4 +1,4 @@
-package com.IbraTeam.JavaBackend.dao.repository;
+package com.IbraTeam.JavaBackend.Repositories;
 
 import com.IbraTeam.JavaBackend.Models.Key.AudienceKey;
 import com.IbraTeam.JavaBackend.Models.Key.KeyTransfer;
@@ -17,7 +17,4 @@ public interface KeyTransferRepository extends JpaRepository<KeyTransfer, UUID> 
     Optional<KeyTransfer> findByKeyAndToUser(AudienceKey key, User toUser);
 
     Optional<KeyTransfer> findByKeyAndFromUser(AudienceKey key,User fromUser);
-    //List<KeyTransfer> findByKeyIdAndToUserId(UUID keyId, UUID toUserId);
-
-    //List<KeyTransfer> findByKeyIdAndFromUserId(UUID keyId, UUID fromUserId);
 }

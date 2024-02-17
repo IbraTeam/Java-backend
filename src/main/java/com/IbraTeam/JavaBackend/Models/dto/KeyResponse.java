@@ -1,4 +1,4 @@
-package com.IbraTeam.JavaBackend.dto;
+package com.IbraTeam.JavaBackend.Models.dto;
 
 import com.IbraTeam.JavaBackend.Models.Key.AudienceKey;
 import lombok.Data;

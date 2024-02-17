@@ -1,4 +1,4 @@
-package com.IbraTeam.JavaBackend.dto;
+package com.IbraTeam.JavaBackend.Models.dto;
 
 import com.IbraTeam.JavaBackend.enums.KeyStatus;
 import com.IbraTeam.JavaBackend.enums.PairNumber;
