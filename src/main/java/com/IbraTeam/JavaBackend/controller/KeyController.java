@@ -6,7 +6,7 @@ import com.IbraTeam.JavaBackend.Models.User.User;
 import com.IbraTeam.JavaBackend.Models.dto.KeyDTO;
 import com.IbraTeam.JavaBackend.Models.dto.KeyInfoDTO;
 import com.IbraTeam.JavaBackend.Models.dto.KeyResponse;
-import com.IbraTeam.JavaBackend.exceptions.ResourceNotFoundException;
+import com.IbraTeam.JavaBackend.Exceptions.ResourceNotFoundException;
 import com.IbraTeam.JavaBackend.Services.KeyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

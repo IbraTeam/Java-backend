@@ -14,8 +14,7 @@ import com.IbraTeam.JavaBackend.Models.dto.KeyDTO;
 import com.IbraTeam.JavaBackend.Models.dto.KeyInfoDTO;
 import com.IbraTeam.JavaBackend.Enums.KeyStatus;
 import com.IbraTeam.JavaBackend.Enums.Status;
-import com.IbraTeam.JavaBackend.exceptions.ResourceNotFoundException;
-import org.apache.coyote.BadRequestException;
+import com.IbraTeam.JavaBackend.Exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
