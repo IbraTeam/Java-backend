@@ -1,5 +1,6 @@
 package com.IbraTeam.JavaBackend.dao;
 
+import com.IbraTeam.JavaBackend.Exceptions.KeyAlreadyExistsException;
 import com.IbraTeam.JavaBackend.Models.Key.AudienceKey;
 import com.IbraTeam.JavaBackend.Models.User.User;
 import com.IbraTeam.JavaBackend.Models.dto.KeyDTO;
@@ -11,7 +12,7 @@ import java.util.UUID;
 public interface KeyDAO {
     List<KeyInfoDTO> getKeys(User user);
 
-    KeyDTO createKey(KeyDTO keyDTO);
+    KeyDTO createKey(KeyDTO keyDTO) throws KeyAlreadyExistsException;
 
     void deleteKey(UUID keyId);
 

@@ -1,5 +1,6 @@
 package com.IbraTeam.JavaBackend.dao.impl;
 
+import com.IbraTeam.JavaBackend.Exceptions.KeyAlreadyExistsException;
 import com.IbraTeam.JavaBackend.Models.Key.AudienceKey;
 import com.IbraTeam.JavaBackend.Models.Key.KeyTransfer;
 import com.IbraTeam.JavaBackend.Models.Request.*;
@@ -14,6 +15,7 @@ import com.IbraTeam.JavaBackend.Models.dto.KeyInfoDTO;
 import com.IbraTeam.JavaBackend.Enums.KeyStatus;
 import com.IbraTeam.JavaBackend.Enums.Status;
 import com.IbraTeam.JavaBackend.exceptions.ResourceNotFoundException;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -126,7 +128,13 @@ public class KeyDAOImpl implements KeyDAO {
     }
 
     @Override
-    public KeyDTO createKey(KeyDTO keyDTO) {
+    public KeyDTO createKey(KeyDTO keyDTO) throws KeyAlreadyExistsException {
+
+        if (keyRepository.findByRoom(keyDTO.getRoom())) {
+            throw new KeyAlreadyExistsException("Ключ с такой аудиторией уже существует");
+        }
+
+
         AudienceKey audienceKey = new AudienceKey();
         audienceKey.setId(UUID.randomUUID());
         audienceKey.setRoom(keyDTO.getRoom());

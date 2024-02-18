@@ -1,5 +1,6 @@
 package com.IbraTeam.JavaBackend.Services;
 
+import com.IbraTeam.JavaBackend.Exceptions.KeyAlreadyExistsException;
 import com.IbraTeam.JavaBackend.Models.User.User;
 import com.IbraTeam.JavaBackend.dao.KeyDAO;
 import com.IbraTeam.JavaBackend.Models.dto.KeyDTO;
@@ -25,7 +26,8 @@ public class KeyServiceImpl implements KeyService {
     }
 
     @Override
-    public KeyDTO createKey(KeyDTO keyDTO) {
+    public KeyDTO createKey(KeyDTO keyDTO) throws KeyAlreadyExistsException {
+
         return keyDAO.createKey(keyDTO);
     }
 

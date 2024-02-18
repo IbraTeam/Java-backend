@@ -1,6 +1,7 @@
-package com.IbraTeam.JavaBackend.controller;
+package com.IbraTeam.JavaBackend.Controller;
 
 
+import com.IbraTeam.JavaBackend.Exceptions.KeyAlreadyExistsException;
 import com.IbraTeam.JavaBackend.Models.User.User;
 import com.IbraTeam.JavaBackend.Models.dto.KeyDTO;
 import com.IbraTeam.JavaBackend.Models.dto.KeyInfoDTO;
@@ -31,7 +32,7 @@ public class KeyController {
     }
 
     @PostMapping
-    public ResponseEntity<KeyDTO> createKey(@RequestBody KeyDTO keyDTO) {
+    public ResponseEntity<KeyDTO> createKey(@RequestBody KeyDTO keyDTO) throws KeyAlreadyExistsException {
         return ResponseEntity.ok(keyService.createKey(keyDTO));
     }
 
@@ -100,7 +101,12 @@ public class KeyController {
         return ResponseEntity.status(status).body(errorMessage);
     }
 
-
+    @ExceptionHandler(KeyAlreadyExistsException.class)
+    public ResponseEntity<Object> handleKeyAlreadyExistsException(KeyAlreadyExistsException ex) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        String errorMessage = ex.getMessage();
+        return ResponseEntity.status(status).body(errorMessage);
+    }
 
 }
 

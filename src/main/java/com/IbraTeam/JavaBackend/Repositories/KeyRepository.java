@@ -14,4 +14,6 @@ public interface KeyRepository extends JpaRepository<AudienceKey, UUID> {
     List<AudienceKey> findByUser(User user);
 
     List<AudienceKey> findAllByStatus(KeyStatus status);
+
+    boolean findByRoom(String room);
 }
