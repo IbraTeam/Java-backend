@@ -130,7 +130,7 @@ public class KeyDAOImpl implements KeyDAO {
     @Override
     public AudienceKey createKey(KeyDTO keyDTO) throws KeyAlreadyExistsException {
 
-        if (keyRepository.findByRoom(keyDTO.getRoom())) {
+        if (keyRepository.existsByRoom(keyDTO.getRoom())) {
             throw new KeyAlreadyExistsException("Ключ с такой аудиторией уже существует");
         }
 
