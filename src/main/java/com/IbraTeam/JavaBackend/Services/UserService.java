@@ -132,12 +132,7 @@ public class UserService implements UserDetailsService, IUserService {
     @Transactional
     public ResponseEntity<?> giveRoleToUsers(User curUser, List<UUID> userIds, RoleRequest userRole){
         Role role = userRole.getRole();
-        if (userIds == null) {
-             return new ResponseEntity<>(
-                    new Response(HttpStatus.BAD_REQUEST.value(),
-                            "Вы не указали пользователей, которым нужно назначить роль"), HttpStatus.BAD_REQUEST);
-        }
-        
+
         if (role == Role.DEAN && curUser.getRole() != Role.ADMIN){
             return new ResponseEntity<>(
                     new Response(HttpStatus.FORBIDDEN.value(),
@@ -175,12 +170,6 @@ public class UserService implements UserDetailsService, IUserService {
     public ResponseEntity<?> deleteRoleFromUser(User curUser, UUID userId, RoleRequest userRole){
         Role role = userRole.getRole();
 
-        if (userId == null) {
-             return new ResponseEntity<>(
-                    new Response(HttpStatus.BAD_REQUEST.value(),
-                            "Вы не указали пользователя, которому нужно удалить роль"), HttpStatus.BAD_REQUEST);
-        }
-        
         if (role == Role.ADMIN){
             return new ResponseEntity<>(
                     new Response(HttpStatus.FORBIDDEN.value(),
