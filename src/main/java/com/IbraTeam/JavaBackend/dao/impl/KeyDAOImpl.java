@@ -128,7 +128,7 @@ public class KeyDAOImpl implements KeyDAO {
     }
 
     @Override
-    public KeyDTO createKey(KeyDTO keyDTO) throws KeyAlreadyExistsException {
+    public AudienceKey createKey(KeyDTO keyDTO) throws KeyAlreadyExistsException {
 
         if (keyRepository.findByRoom(keyDTO.getRoom())) {
             throw new KeyAlreadyExistsException("Ключ с такой аудиторией уже существует");
@@ -136,14 +136,13 @@ public class KeyDAOImpl implements KeyDAO {
 
 
         AudienceKey audienceKey = new AudienceKey();
-        audienceKey.setId(UUID.randomUUID());
+        //audienceKey.setId(UUID.randomUUID());
         audienceKey.setRoom(keyDTO.getRoom());
         audienceKey.setUser(null);
         audienceKey.setStatus(KeyStatus.IN_DEAN);
-        keyDTO.setId(audienceKey.getId());
         audienceKey = keyRepository.save(audienceKey);
 
-        return keyDTO;
+        return audienceKey;
     }
 
     @Override

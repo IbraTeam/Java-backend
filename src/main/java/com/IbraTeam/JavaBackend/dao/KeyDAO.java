@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface KeyDAO {
     List<KeyInfoDTO> getKeys(User user);
 
-    KeyDTO createKey(KeyDTO keyDTO) throws KeyAlreadyExistsException;
+    AudienceKey createKey(KeyDTO keyDTO) throws KeyAlreadyExistsException;
 
     void deleteKey(UUID keyId);
 
