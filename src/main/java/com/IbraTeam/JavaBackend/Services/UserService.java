@@ -54,7 +54,7 @@ public class UserService implements UserDetailsService, IUserService {
         String token = jwtTokenUtils.generateToken(user);
 
         jwtTokenUtils.saveToken(jwtTokenUtils.getIdFromToken(token), "Valid");
-        return ResponseEntity.ok(new JwtResponse(token));
+        return ResponseEntity.ok(new JwtResponse(token, user.getRole()));
     }
 
     @Transactional
@@ -64,7 +64,7 @@ public class UserService implements UserDetailsService, IUserService {
 
         jwtTokenUtils.saveToken(jwtTokenUtils.getIdFromToken(token), "Valid");
 
-        return ResponseEntity.ok(new JwtResponse(token));
+        return ResponseEntity.ok(new JwtResponse(token, user.getRole()));
     }
 
     @Transactional
