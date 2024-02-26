@@ -40,6 +40,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PATCH, "/api/account/role*").hasAnyRole("DEAN", "ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/api/account/role/*").hasAnyRole("DEAN", "ADMIN")
                                 .requestMatchers(HttpMethod.PATCH, "/api/account/dean*").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/audience-key").hasAnyRole("STUDENT")
                                 .requestMatchers(HttpMethod.POST, " /api/audience-key").hasAnyRole("DEAN", "ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, " /api/audience-key").hasAnyRole("DEAN", "ADMIN")
                                 .requestMatchers(HttpMethod.PATCH, "/api/audience-key/give/*").hasAnyRole("STUDENT", "TEACHER", "DEAN", "ADMIN")
