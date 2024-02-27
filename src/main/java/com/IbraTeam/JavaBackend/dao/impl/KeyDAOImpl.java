@@ -54,12 +54,11 @@ public class KeyDAOImpl implements KeyDAO {
             keyDTO.setKeyId(key.getId());
             keyDTO.setRoom(key.getRoom());
 
-            Request lastRequest = requestRepository.findTopByAuthorAndKeyAndStatusOrderByDateTimeDesc(
-                    user, key, Status.Issued);
+            Request lastIssuedRequest = requestRepository.findTopByKeyAndStatusOrderByDateTimeDesc(key, Status.Issued);
 
-            if (lastRequest != null) {
-                keyDTO.setDateTime(lastRequest.getDateTime());
-                keyDTO.setPairNumber(lastRequest.getPairNumber());
+            if (lastIssuedRequest != null) {
+                keyDTO.setDateTime(lastIssuedRequest.getDateTime());
+                keyDTO.setPairNumber(lastIssuedRequest.getPairNumber());
             }
 
             // Мы отдаем ключик
@@ -81,8 +80,7 @@ public class KeyDAOImpl implements KeyDAO {
 
         List<AudienceKey> keysOnHands = keyRepository.findByUser(user);
         for (AudienceKey key : keysOnHands) {
-            Request lastRequest = requestRepository.findTopByAuthorAndKeyAndStatusOrderByDateTimeDesc(
-                    user, key, Status.Issued);
+            Request lastRequest = requestRepository.findTopByKeyAndStatusOrderByDateTimeDesc(key, Status.Issued);
 
             KeyInfoDTO keyDTO = new KeyInfoDTO();
             if (lastRequest != null) {
@@ -108,7 +106,7 @@ public class KeyDAOImpl implements KeyDAO {
                     .orElse(null);
 
             if (firstRequest != null) {
-                // Если последняя заявка пользователя на этот ключ одобрена
+                // Если первая заявка пользователя на этот ключ одобрена
                 KeyInfoDTO keyDTO = new KeyInfoDTO();
                 keyDTO.setKeyId(key.getId());
                 keyDTO.setRoom(key.getRoom());
